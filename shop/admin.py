@@ -4,14 +4,17 @@ from .models import Cacti
 # Register your models here.
 
 
-
 @admin.register(Cacti)
 class CactiAdmin(admin.ModelAdmin):
+    readonly_fields = ["image_preview"]
 
-    readonly_fields = ['image_preview']
-
-    fields = ["name", "image",]
+    fields = [
+        "name",
+        "image",
+    ]
 
     list_display = ["name", "image_preview"]
 
-    search_fields = ["name",]
+    search_fields = [
+        "name",
+    ]

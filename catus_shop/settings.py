@@ -20,7 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 from django.templatetags.static import static
 
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -49,8 +48,6 @@ INSTALLED_APPS = [
     "shop",
     "boto3",
     "storages",
-
- 
 ]
 
 MIDDLEWARE = [
@@ -61,7 +58,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-
 ]
 
 ROOT_URLCONF = "catus_shop.urls"
@@ -96,7 +92,6 @@ DATABASES = {
         "PASSWORD": "H@bana2019*",
         "HOST": "172.18.0.1",
         "PORT": 45432,
-
     }
 }
 
@@ -141,17 +136,18 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
- 
+
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 
-
-AWS_ACCESS_KEY_ID='AKIAUQQD6VGKLAUXLKNJ'
-AWS_SECRET_ACCESS_KEY='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'
-AWS_STORAGE_BUCKET_NAME='staging-propoerty-x-s3-bucket'
-AWS_DEFAULT_ACL='public-read'
-AWS_S3_REGION_NAME='ap-southeast-1'
-AWS_S3_ENDPOINT_URL='https://staging-propoerty-x-s3-bucket.s3.ap-southeast-1.amazonaws.com'
+AWS_ACCESS_KEY_ID = "AKIAUQQD6VGKLAUXLKNJ"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "staging-propoerty-x-s3-bucket"
+AWS_DEFAULT_ACL = "public-read"
+AWS_S3_REGION_NAME = "ap-southeast-1"
+AWS_S3_ENDPOINT_URL = (
+    "https://staging-propoerty-x-s3-bucket.s3.ap-southeast-1.amazonaws.com"
+)
 
 
 UNFOLD = {
