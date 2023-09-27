@@ -1,0 +1,71 @@
+name: CI for Django project
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - develop
+  push:
+    branches:
+      - develop
+      - main
+
+env:
+  DJANGO_SETTINGS_MODULE: config.settings
+  SECRET_KEY: "for-test-only"
+
+jobs:
+  ci:
+    runs-on: ubuntu-22.04
+    services:
+      db:
+        image: postgres:14.5-alpine
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: django_template
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Cache dependencies
+        uses: actions/cache@v3.2.4
+        id: cache
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: pip install -r requirements.txt
+
+      - name: Lint
+        run: |
+          ruff check .
+
+      - name: Check code format
+        run: |
+          black --check .
+
+      - name: Run Django checks
+        run: |
+          python manage.py check
+
+      - name: Check for missing migrations
+        run: |
+          python manage.py makemigrations --dry-run --check
+
+      - name: Run tests
+        run: |
+          pytest
